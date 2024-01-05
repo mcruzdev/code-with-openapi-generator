@@ -277,4 +277,11 @@ components:
       properties:
         name:
           type: string
-      additionalProperties: true
+      additionalProperties: 
+        type: object
+        properties:
+          code:
+            type: integer
+          text:
+            type: string
+

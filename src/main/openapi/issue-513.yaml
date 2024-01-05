@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  version: v1
+  title: Minha API
+  description: Descrição da minha API
+
+paths:
+  /update-roles/{idp-id}/{user-id}:
+    put:
+      summary: Atualizar papéis do usuário
+      operationId: update-roles-of-user
+      parameters:
+        - name: idp-id
+          in: path
+          description: ID do provedor de identidade.
+          required: true
+          example: idp-1
+          schema:
+            $ref: "#/components/schemas/ID"
+
+        - name: user-id
+          in: path
+          description: ID do usuário conforme fornecido pelo provedor de identidade.
+          required: true
+          example: user-1
+          schema:
+            type: string
+
+      requestBody:
+        description: Adicionar, remover ou sobrescrever os papéis do usuário.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                op:
+                  type: string
+                  description: |
+                    - add: adicione esses papéis aos papéis existentes que o usuário possui.
+                    - remove: remova esses papéis dos papéis existentes que o usuário possui.
+                    - overwrite: sobrescreva completamente os papéis existentes que o usuário possui com esses papéis.
+                  enum:
+                    - add
+                    - remove
+                    - overwrite
+
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  description: Lista de IDs de papel
+                  example:
+                    - role-1
+                    - role-2
+      responses:
+        200:
+          description: Sucesso na atualização dos papéis do usuário.
+        400:
+          description: Requisição inválida. Verifique os parâmetros de entrada.
+        404:
+          description: Usuário ou provedor de identidade não encontrado.
+
+components:
+  schemas:
+    ID:
+      type: string

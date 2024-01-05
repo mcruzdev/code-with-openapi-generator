@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Issue 495
+  version: v1
+servers:
+  - url: http://localhost
+paths:
+  /users:
+    get:
+      responses:
+        "200":
+          description: Issue 495
+          content:
+            "application/json":
+              schema: 
+                $ref: '#/components/schemas/PatchItemV3'
+
+components:
+  schemas:
+     PatchItemV3:
+      type: object
+      required:
+        - op
+        - path
+      properties:
+        path:
+          type: string
+          enum:
+            - /status/addressStatus
+        value:
+          type: object
